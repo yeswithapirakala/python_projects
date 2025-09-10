@@ -29,9 +29,8 @@ user_details={123456789:["hexley",10000,"hexley@gmail.com"],
 transaction_details={123456789:[],
                      987654321:[]}
 
-#operations5
-#tuple is used because the operations are fixed
-operations=(" 1.balance \n",
+#operations
+operations=("1.balance\n",
             "2.withdrawal\n",
             "3.deposit\n",
             "4.history\n",
@@ -44,7 +43,7 @@ def check_login(account_no:int,pin_no:int):
   if account_no in account_details:
     #pin validation
     if account_details[account_no]==pin_no:
-      lg.info("user login successfull")
+      lg.info("user login successful")
       return True
     else:
       lg.error("invalid pin number")
@@ -108,7 +107,6 @@ def transfer(account_no):
       user_details[transfer_account_no][1]+=transfer_amount
       lg.info("amount transfered successfully")
       print(f"{transfer_amount} amount transfered successfully and the current balance is {user_details[account_no][1]}")
-
     else:
       lg.error("insufficient balance")
       print("insufficient balance")  
@@ -144,12 +142,10 @@ def chose_operation(account_no:int,choice:int):
     transfer(account_no=account_no)
   elif choice == 6:
     val=exit_fun()
-  if val:
-    return val
-  else :
+  else:
     lg.error("invalid choice")
     print("invalid choice \n please enter a valid choice between 1 to 6")
-
+  return val  
 
 #main function 
 if __name__=="__main__":
@@ -158,17 +154,16 @@ if __name__=="__main__":
   account_no=int(input("Please,Enter your account number: "))
   pin_no=int(input("please,Enter your pin number: "))
   lg.info(f"user entered account number {account_no} and pin number {pin_no}")
-  while True:
-    if check_login(account_no=account_no,pin_no=pin_no):
-        #account_no (parameter) = account_no (value) from the function
+  if check_login(account_no=account_no,pin_no=pin_no):  
+    while True:
         print(*operations)
-        lg.info(*operations)
+        lg.info(operations)
         choice=int(input("Enter the operation you want to perform:"))
         exit_fun_val=chose_operation(account_no=account_no,choice=choice)
         if exit_fun_val:
-          lg.info("user exited from the application")
-          print("Thank you for using our application")
-          break
-  else:
-      lg.info(f"login failed for account number {account_no} and pin number{pin_no}")
-      print("invalid account number or pin number")
+            lg.info("user exited from the application")
+            print("Thank you for using our application")
+            break
+  else:   
+    lg.info("login failed...")
+    print("invalid account number or pin number")
